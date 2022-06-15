@@ -1,0 +1,205 @@
+---
+title: "Accelerometer and ambiguous metrics"
+subtitle: "Proof of concept"
+author: "Pedro Neto"
+date: "14.01.2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library("dplyr")
+library("ggridges")
+library("stringr")
+library("evobiR")
+library("runner")
+library("soundgen")
+library("pracma")
+library("TSA")
+library("zoo")
+library("spectral")
+library("perARMA")
+library("ggplot2")
+source("/Users/pdealcan/Documents/github/doc_suomi/code/utils.R")
+path_dance = "/Users/pdealcan/Documents/github/doc_suomi/text/CoE/project/data/collection"
+
+#Autocor and half-wave rectification
+half_waving = function(x, max_lag = 3){
+  autocor = acf(x, lag.max = sr*max_lag, plot = FALSE)$acf
+  autocor = pmax(autocor, 0)
+  return(autocor)   
+}
+#Time scaling and subtraction
+scaling = function(x, factor = 2){
+  subtracted = c()
+  time = 1:length(x)
+  time_scale = time/factor
+  for(i in 1:length(x)){
+    subtracted = c(subtracted, x[i]-x[which(time_scale == i)])
+  }
+  return(subtracted) 
+}
+enhancedAutocor = function(signal, max_lag){
+  autocor = half_waving(signal, 2)
+  autocor = scaling(autocor)
+  return(autocor)
+}
+beat_to_sample = function(beat, sr){
+  r = (60*sr)/beat
+  return(r) #Returns samples that 1 beat takes
+}
+period = function(autocor_result, sr, plot = FALSE){
+    peaks = findpeaks(autocor_result, minpeakheight = 0.2)
+    bpmLow = beat_to_sample(10, sr)
+    bpmHigh = beat_to_sample(300, sr) 
+    periods = peaks[,2] #Periods in units of sampling
+    if(plot == TRUE){
+      plot((1:length(autocor_result))/sr, autocor_result, xlim = c(1, length(autocor_result))/sr, ylim = c(-1, 1), col = "blue", type = "ls", xlab = "lag (s)", ylab = "Enhanced autocorrelation")
+      par(new = TRUE)
+      plot(peaks[,2]/sr, peaks[,1], xlim = c(1, length(autocor_result))/sr, ylim = c(-1, 1), col = "red", xlab = "", ylab = "")
+    }
+    viable_periods = which(periods < bpmLow & periods > bpmHigh)
+    return(periods[viable_periods])
+}
+period_filter = function(periods, filter_bpm){ 
+  increment = filter_bpm*0.1
+  isBetween = function(x){ (x < filter_bpm+increment) && (x > filter_bpm-increment) } 
+  bol_array = lapply(periods, isBetween)
+  return(unlist(bol_array))
+}
+#Function returns periods found within signal
+doit = function(signal, sr){
+  autocor = enhancedAutocor(signal)
+  periods = period(autocor, sr)
+  periods = periods/sr
+  return(periods)
+}
+#windowing function
+wraper = function(signal, sr = 203, window = 3, step = 0.5){
+  window = sr*window
+  step = round(window*step)
+  steps = seq(1, length(signal$x)-window, step)
+  periods= c()
+  for(i in steps){
+    w = 1:(i+window-2)
+    pb = doit(signal$x[w], sr)
+    periods = c(periods, pb)
+  }
+  data = data.frame(periods = c(periods),
+                    file = c(rep(unique(signal$file), length(periods)) )
+  )
+  return(data)
+}
+#function to change names
+a = function(x){
+  if(x == TRUE){
+    return("binary")
+  }else{ 
+    return("ternary")
+  }
+}
+
+########Read data begins
+files = list.files(path_dance); sr = 203
+data = c()
+for(i in files){
+  f = fread(paste(path_dance, i, sep = "/")) 
+  f = f$gFx
+  b = 1*sr
+  e = 11*sr 
+  f = f[b:e]
+  f = data.frame(x = f)
+  f$file = i
+  data = c(data, list(f))
+}
+
+#Applying
+processed = bind_rows(lapply(data, wraper)) #analysing periods
+processed$condition = str_detect(processed$file, "binary") #changing variable names
+processed$condition = unlist(lapply(processed$condition, a)) #changing variable names
+```
+
+# Design and data collection
+
+I listened and moved to a metrically ambiguous stimulus 12 times, 6 focusing on a binary metric, and 6 on a ternary oe. 
+
+![]("../project/Slide2.png")
+
+Movement data was collected with the built-in accelerometer of my mobile phone. For the following analysis, I've only used the x axis, which corresponds to the vertical movement of the phone when its screen is pointing towards my face (in a next report, I can attempt the same with eigenmovements). Data is represented as g-Force units, sampled at 203Hz.
+
+# Analysis
+
+Movement data was trimmed between the 1st and 10th seconds of each dance. Later, each signal was windowed in chunks of 3 seconds, with a 0.5 seconds overlap.
+
+Each dance was subject to an enhanced autocorrelation procedure (code below). Autocorrelation was performed with a maximum lag of 3 seconds.
+\
+
+```{r enhanced, echo=TRUE}
+#Autocor and half-wave rectification
+half_waving = function(x, max_lag = 3){
+  autocor = acf(x, lag.max = sr*max_lag, plot = FALSE)$acf
+  autocor = pmax(autocor, 0)
+  return(autocor)   
+}
+#Time scaling and subtraction
+scaling = function(x, factor = 2){
+  subtracted = c()
+  time = 1:length(x)
+  time_scale = time/factor
+  for(i in 1:length(x)){
+    subtracted = c(subtracted, x[i]-x[which(time_scale == i)])
+  }
+  return(subtracted) 
+}
+enhancedAutocor = function(signal, max_lag){
+  autocor = half_waving(signal, 2)
+  autocor = scaling(autocor)
+  return(autocor)
+}
+```
+\
+Next, I identifyed peaks of the autocorrelation function that would yieald periodicities between 30 and 300 BPM. I also discarded autocorrelation peaks that were lower than 0.2.
+
+The function below returns all periods that are identifyed within the enhanced autocorrelation. 
+\
+```{r periodicity, echo=TRUE, eval=FALSE}
+period = function(autocor_result, sr){
+    peaks = findpeaks(autocor_result, minpeakheight = 0.2)
+    bpmLow = beat_to_sample(30, sr)
+    bpmHigh = beat_to_sample(300, sr) 
+    periods = peaks[,2] #Periods in units of sampling
+    viable_periods = which(periods < bpmLow & periods > bpmHigh)
+    return(periods[viable_periods])
+}
+```
+\
+Below I am showing an example of periodicity analysis. I ran it on one window of one binary dance. The period found is equivalent to 0.83 seconds. There was also one period aroud 0.1 second, but it was not considered because it would yieald a metric above 300BPM.
+\
+
+```{r periodicityExample, echo=TRUE}
+autocor = enhancedAutocor(data[[3]]$x)
+periods = period(autocor, 203, plot = TRUE)
+```
+\
+Final analysis computes periodicity distribution for each dance, as well as a global periodicity analysis, respectivelly. Results indicate higher concentration of periods around 0.9 second and 0.45 seconds, which roughly correspond to the duration of 1/2 beat in binary and 1 beat in ternary music played at 120BPM song.
+\
+
+```{r final, include=TRUE}
+processed %>%
+  ggplot(aes(x = periods)) +
+    facet_wrap(~file, scale = "free")+
+    geom_density(fill = "lightblue", alpha = 0.5)
+    #geom_density_ridges(fill = "lightblue", alpha = 0.5)
+
+processed %>%
+  ggplot(aes(x=periods, y=periods) ) +
+    stat_density_2d(aes(fill = ..density..), geom = "raster", contour = "white") +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    theme(
+      legend.position='none'
+    )
+```
+\
+Ternary metrics are bimodal. This indicates that I was synchronizing to the beat of the ternary, and to the bar of the binary. By moving to the third beat of the ternary, I was also indicating a binary movement (the third beat of the ternary corresponds to the first of the binary).
+

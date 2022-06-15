@@ -1,0 +1,59 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: researchProposal.aux
+The style file: apacite.bst
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: ./M335.bib
+Warning--entry type for "neto2022accel" isn't style-file defined
+--line 20 of file ./M335.bib
+apacite.bst [2013/07/21 v6.03 APA bibliography style]
+You've used 33 entries,
+            6951 wiz_defined-function locations,
+            1491 strings with 16953 characters,
+and the built_in function-call counts, 65778 in all, are:
+= -- 8138
+> -- 564
+< -- 3214
++ -- 3314
+- -- 66
+* -- 4293
+:= -- 12088
+add.period$ -- 138
+call.type$ -- 33
+change.case$ -- 564
+chr.to.int$ -- 0
+cite$ -- 66
+duplicate$ -- 1754
+empty$ -- 2499
+format.name$ -- 946
+if$ -- 12420
+int.to.chr$ -- 0
+int.to.str$ -- 99
+missing$ -- 0
+newline$ -- 847
+num.names$ -- 266
+pop$ -- 902
+preamble$ -- 1
+purify$ -- 132
+quote$ -- 0
+skip$ -- 4375
+stack$ -- 0
+substring$ -- 3604
+swap$ -- 1072
+text.length$ -- 84
+text.prefix$ -- 0
+top$ -- 1
+type$ -- 2904
+warning$ -- 0
+while$ -- 315
+width$ -- 0
+write$ -- 1079
+(There was 1 warning)

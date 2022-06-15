@@ -1,0 +1,88 @@
+Questions:
+
+M1 Rhythmic, social, and collective entrainment in music-induced movement (PT)
+
+Gaps: 
+  - Insufficient focus on natural, multimodal and interactive musical behavior;
+
+The role of sensory couplings (auditory, visual, haptic), explicit leader/follower relations, and group size on actual and perceived interaction.
+
+RQ1: What is the influence of age on rhythmic entrainment?
+  - What aspects of rithmicity are innate?
+  - What aspects of rithmicity are universal?
+  - Children entrain less, followed by seniors and adults, respectively. 
+RQ2: How does collective entrainment depend on multimodal information presence, interaction type, and group size? 
+  - If entrainment is constant for children and adults, this indicates inateness. What if children entrain the same, but are less capable of correcting errors. Or entrain the same, but not to complex stimuli.
+
+Study 1 (locomotion/dance): variance across age groups in full-body rhythmic entrainment.
+
+
+Fichamentos
+
+####################################################################################
+
+Ideas
+#Beat perception is predictive. Humans have to antecipate when beat is going to occur (Patel, 2014). Does antecipation occur equally in all metric levels? For instance, do we predict higher hierarchical beats BUT react to lower hierarchical beats? 
+
+#I need 3 articles as first author. Do my own hypothesis testing/investigation; Work on other projects analyzing/writing/etc...; 
+
+#Importance of rhythm
+- The ability to entrain actions to a periodic pulse is not uniquely human: several species of frogs and insects are known to call or flash periodically and in synchrony with conspecifics [10]. Indeed, it has been suggested that rhythmic entrainment emerges quite easily in biological systems [11]. (Patel, 2014)
+
+- Great apes are known to drumm in the wild (Fitch, 2006), but Rhesus Monkeys exhibit no neural correlates of beat perception (Zarco et al., 2009).
+
+- (meu texto) Evolutionary aspects of rhytmicity have been considered with regards to basic syncronization aspects (Patel, 2014). More recently, however, hyerarchical aspects of rhythm entrainment have been considered as a fundamentally human trait (Richter & Ostovar, 2016)
+
+#Music universal
+- every culture has some form of music with a beat, a perceived periodic pulse that dancers use to guide their movements and performers use to coordinate their actions (Nettl, 2000)
+
+#Music and movement:
+- There is a strong connection between music and bodily movement. (Toiviainen, Luck & Thompson, 2010)
+- Eerola, Luck, and Toiviainen (2006) investigated toddlers’ corporeal synchronization with music using a high resolution motion capture system. They found that 2–4 year old children exhibited periodic movement, and that this movement was at times synchronized with the tactus of music.
+- 
+
+#Metric hyerarchies:
+- When listening to music, we frequently perceive more than one beat level. These beats are often hierarchically organized, with their periods having integer ratios (Palmer & Krumhansl, 1990). (Toiviainen, Luck & Thompson, 2010)
+
+- synchronization ability is spontaneous and accurate [for finger-tapping paradigms] (Drake, Penel, & Bigand, 2000; Large, Fink, & Kelso, 2002; Snyder & Krumhansl, 2001; Toiviainen & Snyder, 2003)
+
+- Metrical structure is normally derived from the accent structure of music, which again emerges from various sources such as the duration, loudness, and pitch of tones, and harmonic changes. Most music has either a duple (every second beat accented) or a triple meter (every third beat accented). (Toiviainen, Luck & Thompson, 2010)
+
+- Naveda and Leman (2010), however, studied how the metric hierarchy of Samba and Charleston is reflected in professional dancers’ repetitive gestures. (Toiviainen, Luck & Thompson, 2010)
+
+- we expect to see simultaneous synchronization of movement patterns to several metrical levels. (Toiviainen, Luck & Thompson, 2010)
+
+- faster metric levels are embodied in the extremities (Toiviainen, Luck & Thompson, 2010)
+
+- Toiviainen, Luck & Thompson (2010) found that movement to different metrical structures (2 or 4 beats) were performed by different body parts. Heavier and larger body parts are fow lower frequencies, whereas lighter and smaller for higher frequencies. IS THAT THE NATURE OF HYERARCHICAL ORGANIZATION OF BEAT?? BIOMECHANICS EXPLAINING DIFFERENT SYNCHRONIZATION LEVELS, THE ORIGINE OF METER HYERARCHY. IF YES, WE SHOULD SEE SOMETHING SIMILAR IN OTHER ANIMALS.
+
+
+#Methods
+- Calculate potential (height in gravitational field) and kinetic energy (speed) over N windows of L size;
+- Auto correlation on the results. Each window receives a period value.
+
+
+
+References
+
+Toiviainen, P., Luck, G., & Thompson, M. R. (2010). Embodied meter: hierarchical eigenmodes in music-induced movement. Music Perception, 28(1), 59-70.
+
+Nettl B (2000) An ethnomusicologist contemplates universals in musical sound and musical culture. In: Wallin NL, Merker B, Brown S, editors. The origins of music. Cambridge, MA: MIT Press. pp. 463–472.
+
+Patel, A. D. (2014). The evolutionary biology of musical rhythm: was Darwin wrong?. PLoS biology, 12(3), e1001821.
+
+Zarco w, Merchant H, Prado L, Mendez JC (2009) Subsecond timing in primates: comparison of interval production between human subjects and rhesus monkeys. J Neurophysiol 102: 3191–3202.
+
+Fitch WT (2006) The biology and evolution of music: a comparative perspective. Cognition 100: 173–215.
+
+Richter, J., & Ostovar, R. (2016). “It don’t mean a thing if it ain’t got that swing”–an alternative concept for understanding the evolution of dance and music in human beings. Frontiers in human neuroscience, 10, 485.
+
+
+
+#To read
+https://www.annualreviews.org/doi/abs/10.1146/annurev-psych-122216-011740
+https://link.springer.com/article/10.1007/s00426-017-0894-2
+https://www.frontiersin.org/articles/10.3389/fnhum.2012.00026/full
+https://online.ucpress.edu/mp/article/34/1/56/62773/Hearing-the-BeatYoung-Children-s-Perceptual
+https://www.tandfonline.com/doi/full/10.1080/14613800600957487
+https://www.tandfonline.com/doi/full/10.1080/02643294.2013.863183

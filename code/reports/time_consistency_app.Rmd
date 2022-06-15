@@ -1,0 +1,83 @@
+---
+title: "Accelerometer (browser)"
+subtitle: "Sampling rate accuracy"
+author: "Pedro Neto"
+date: "27.01.2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+source('/Users/pdealcan/Documents/github/doc_suomi/code/utils.R')
+library(dplyr)
+library(rmarkdown)
+library(ggplot2)
+require(jsonlite)
+
+filepath<-"/Users/pdealcan/Documents/github/doc_suomi/text/CoE/code/trial_data_2.json"
+content<-readLines(filepath)
+res<-lapply(content,fromJSON)
+
+dt = data.frame(res)
+```
+
+# Setup
+
+When the user presses the "Start" button, a song starts playing and accelerometer data starts being collected along axis $x$, $y$ and $z$. Sampling occurs every 60ms, and everytime it occurs, I monitor timing thgough 1) UNIX epoch (ms since 1.1.1970); and 2) amount of time passed in the song. That way I have 2 time-stamps associated with each accelerometer reading.
+
+```{r setup2, include=TRUE}
+dt %>%
+  melt(id.vars = c("thist", "audiohist")) %>%
+  ggplot(aes(x = audiohist, y = value))+
+    facet_wrap(~variable)+
+    geom_path()+
+    ylab("Accelerometer")+
+    xlab("Audio timing (s)")
+```
+
+# Analyses
+
+Here I analyse the consistency of these readings.
+
+
+## Difference between time elapsed from audio-time and UNIX epoch
+
+```{r enhanced, echo=TRUE}
+time_elapsed = max(dt$thist) - min(dt$thist) #time elapsed from UNIX epochs 
+time_elapsed - ((max(dt$audiohist) - min(dt$audiohist))*1000)
+```
+
+## Sampling rate (difference between ideal and observed)
+```{r enhanced2, echo=TRUE}
+sampling_frequency = 60
+expected_sr = 1000/sampling_frequency
+actual_sr = (1000*length(dt$thist))/time_elapsed
+
+expected_sr - actual_sr
+```
+
+```{r enhanced3, echo=FALSE}
+difs = c()
+for(i in 1:(length(dt$thist)-1)){
+  difs = c(difs, dt$thist[i+1] - dt$thist[i])
+}
+```
+
+## Consistency of inter-sampling intervals
+
+Here I calculated the amount of time passed between samples $n$ and $n+1$ (difs).
+
+```{r enhanced4, echo=TRUE}
+sum(difs) == time_elapsed
+```
+## Mean time (ms) between samples (Expected was 60)
+```{r enhanced5, echo=TRUE}
+mean(difs) 
+```
+## Dispersion measures
+```{r enhanced6, echo=TRUE}
+sd(difs)
+max(difs)
+min(difs)
+```
+
